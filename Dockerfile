@@ -1,4 +1,4 @@
-FROM gableroux/unity3d:2020.1.2f1-linux-il2cpp
+FROM unityci/editor:ubuntu-2020.3.4f1-linux-il2cpp-0
 
 RUN apt install \
 		ca-certificates \
