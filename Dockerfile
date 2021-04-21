@@ -1,9 +1,13 @@
 FROM unityci/editor:ubuntu-2020.3.4f1-linux-il2cpp-0
 
-RUN apt install \
+RUN apt update
+RUN apt install -qq -y --no-install-recommends \
 		ca-certificates \
 # DOCKER_HOST=ssh://... -- https://github.com/docker/cli/pull/1014
-		openssh-client
+		openssh-client \
+	&& apt clean \
+  && rm -rf /var/lib/apt/lists/* \
+  && rm -rf /tmp/*
 
 # set up nsswitch.conf for Go's "netgo" implementation (which Docker explicitly uses)
 # - https://github.com/docker/docker-ce/blob/v17.09.0-ce/components/engine/hack/make.sh#L149
