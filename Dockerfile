@@ -1,6 +1,6 @@
 FROM gableroux/unity3d:2020.1.2f1-linux-il2cpp
 
-RUN apk add --no-cache \
+RUN apt install \
 		ca-certificates \
 # DOCKER_HOST=ssh://... -- https://github.com/docker/cli/pull/1014
 		openssh-client
@@ -9,7 +9,7 @@ RUN apk add --no-cache \
 # - https://github.com/docker/docker-ce/blob/v17.09.0-ce/components/engine/hack/make.sh#L149
 # - https://github.com/golang/go/blob/go1.9.1/src/net/conf.go#L194-L275
 # - docker run --rm debian:stretch grep '^hosts:' /etc/nsswitch.conf
-RUN [ ! -e /etc/nsswitch.conf ] && echo 'hosts: files dns' > /etc/nsswitch.conf
+RUN echo 'hosts: files dns' >> /etc/nsswitch.conf
 
 ENV DOCKER_VERSION 19.03.13-beta2
 # TODO ENV DOCKER_SHA256
@@ -18,18 +18,18 @@ ENV DOCKER_VERSION 19.03.13-beta2
 
 RUN set -eux; \
 	\
-	apkArch="$(apk --print-arch)"; \
+	apkArch="$(dpkg --print-architecture)"; \
 	case "$apkArch" in \
-		'x86_64') \
+		'i386') \
 			url='https://download.docker.com/linux/static/test/x86_64/docker-19.03.13-beta2.tgz'; \
 			;; \
-		'armhf') \
+		'armel') \
 			url='https://download.docker.com/linux/static/test/armel/docker-19.03.13-beta2.tgz'; \
 			;; \
-		'armv7') \
+		'armhf') \
 			url='https://download.docker.com/linux/static/test/armhf/docker-19.03.13-beta2.tgz'; \
 			;; \
-		'aarch64') \
+		'amd64') \
 			url='https://download.docker.com/linux/static/test/aarch64/docker-19.03.13-beta2.tgz'; \
 			;; \
 		*) echo >&2 "error: unsupported architecture ($apkArch)"; exit 1 ;; \
