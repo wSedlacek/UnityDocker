@@ -2,9 +2,9 @@ FROM unityci/editor:ubuntu-2020.3.4f1-linux-il2cpp-0
 
 RUN apt-get update -qq
 RUN apt-get install -qq -y --no-install-recommends \
-		ca-certificates \
+    ca-certificates \
 # DOCKER_HOST=ssh://... -- https://github.com/docker/cli/pull/1014
-		openssh-client
+    openssh-client
 RUN apt-get clean -qq \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/*
@@ -21,17 +21,17 @@ ENV DOCKER_VERSION 19.03.13-beta2
 # (no SHA file artifacts on download.docker.com yet as of 2017-06-07 though)
 
 RUN set -eux; \
-	wget -qO docker.tgz "https://download.docker.com/linux/static/test/x86_64/docker-19.03.13-beta2.tgz"; \
-	\
-	tar --extract \
-		--file docker.tgz \
-		--strip-components 1 \
-		--directory /usr/local/bin/ \
-	; \
-	rm docker.tgz; \
-	\
-	dockerd --version; \
-	docker --version
+  wget -qO docker.tgz "https://download.docker.com/linux/static/test/x86_64/docker-19.03.13-beta2.tgz"; \
+  \
+  tar --extract \
+    --file docker.tgz \
+    --strip-components 1 \
+    --directory /usr/local/bin/ \
+  ; \
+  rm docker.tgz; \
+  \
+  dockerd --version; \
+  docker --version
 
 COPY modprobe.sh /usr/local/bin/modprobe
 COPY docker-entrypoint.sh /usr/local/bin/
