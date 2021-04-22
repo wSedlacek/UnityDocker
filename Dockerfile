@@ -21,25 +21,7 @@ ENV DOCKER_VERSION 19.03.13-beta2
 # (no SHA file artifacts on download.docker.com yet as of 2017-06-07 though)
 
 RUN set -eux; \
-	\
-	apkArch="$(dpkg --print-architecture)"; \
-	case "$apkArch" in \
-		'i386') \
-			url='https://download.docker.com/linux/static/test/x86_64/docker-19.03.13-beta2.tgz'; \
-			;; \
-		'armel') \
-			url='https://download.docker.com/linux/static/test/armel/docker-19.03.13-beta2.tgz'; \
-			;; \
-		'armhf') \
-			url='https://download.docker.com/linux/static/test/armhf/docker-19.03.13-beta2.tgz'; \
-			;; \
-		'amd64') \
-			url='https://download.docker.com/linux/static/test/aarch64/docker-19.03.13-beta2.tgz'; \
-			;; \
-		*) echo >&2 "error: unsupported architecture ($apkArch)"; exit 1 ;; \
-	esac; \
-	\
-	wget -O docker.tgz "$url"; \
+	wget -O docker.tgz "https://download.docker.com/linux/static/test/x86_64/docker-19.03.13-beta2.tgz"; \
 	\
 	tar --extract \
 		--file docker.tgz \
